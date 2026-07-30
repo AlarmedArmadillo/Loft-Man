@@ -1,0 +1,311 @@
+<style>
+  :root {
+    --paper: #FAF7F0; --panel: #F1EADB; --panel-2: #EBE2CF; --line: #E0D5BF;
+    --line-strong: #CFC0A2; --ink: #241E15; --ink-soft: #4A4033; --muted: #7A6E58;
+    --accent: #A9691A; --accent-soft: #C68A38;
+    --go: #3E7A4C; --go-bg: #E4EEDE;
+    --brand: #3A5F7D; --brand-bg: #E1E9F0;
+    --flag: #A93B2C; --flag-bg: #F3E0DA;
+    --lag: #C67A1E; --lag-bg: #F3E7CF;
+    --shadow: 0 1px 2px rgba(36,30,21,.05), 0 8px 24px -12px rgba(36,30,21,.18);
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #1A1610; --panel: #221C14; --panel-2: #2A2318; --line: #362C1F;
+      --line-strong: #473A29; --ink: #F0E7D6; --ink-soft: #D3C7B1; --muted: #A99A80;
+      --accent: #E0A03B; --accent-soft: #C88630; --go: #7FB98A; --go-bg: #22301F;
+      --brand: #7FAAD0; --brand-bg: #1E2A34; --flag: #E08272; --flag-bg: #33211C;
+      --lag: #DD9A44; --lag-bg: #2E2716;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="light"] {
+    --paper: #FAF7F0; --panel: #F1EADB; --panel-2: #EBE2CF; --line: #E0D5BF;
+    --line-strong: #CFC0A2; --ink: #241E15; --ink-soft: #4A4033; --muted: #7A6E58;
+    --accent: #A9691A; --accent-soft: #C68A38; --go: #3E7A4C; --go-bg: #E4EEDE;
+    --brand: #3A5F7D; --brand-bg: #E1E9F0; --flag: #A93B2C; --flag-bg: #F3E0DA;
+    --lag: #C67A1E; --lag-bg: #F3E7CF;
+    --shadow: 0 1px 2px rgba(36,30,21,.05), 0 8px 24px -12px rgba(36,30,21,.18);
+  }
+  :root[data-theme="dark"] {
+    --paper: #1A1610; --panel: #221C14; --panel-2: #2A2318; --line: #362C1F;
+    --line-strong: #473A29; --ink: #F0E7D6; --ink-soft: #D3C7B1; --muted: #A99A80;
+    --accent: #E0A03B; --accent-soft: #C88630; --go: #7FB98A; --go-bg: #22301F;
+    --brand: #7FAAD0; --brand-bg: #1E2A34; --flag: #E08272; --flag-bg: #33211C;
+    --lag: #DD9A44; --lag-bg: #2E2716;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .wrap { background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; padding: clamp(20px,5vw,56px) 20px 80px; }
+  .col { max-width: 920px; margin: 0 auto; }
+
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
+  h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(29px,5.6vw,48px); line-height: 1.05; letter-spacing: -.01em; text-wrap: balance; margin: 0 0 18px; }
+  h1 .thin { color: var(--muted); }
+  .standfirst { font-size: clamp(16px,2.3vw,19px); color: var(--ink-soft); max-width: 64ch; margin: 0; }
+  .standfirst strong { color: var(--ink); font-weight: 600; }
+
+  .tally { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 30px 0 8px; box-shadow: var(--shadow); }
+  .tally .cell { background: var(--panel); padding: 15px 18px; }
+  .tally .n { font-family: var(--serif); font-size: 27px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; color: var(--accent); }
+  .tally .n.flag { color: var(--flag); }
+  .tally .n.brand { color: var(--brand); }
+  .tally .l { font-family: var(--mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-top: 8px; line-height: 1.35; }
+
+  /* Day-0 banner */
+  .day0 { display: flex; gap: 16px; align-items: flex-start; margin: 22px 0 6px; background: var(--flag-bg); border: 1px solid color-mix(in srgb, var(--flag) 32%, transparent); border-left: 5px solid var(--flag); border-radius: 12px; padding: 18px 20px; }
+  .day0 .tag { font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--flag); white-space: nowrap; padding-top: 2px; }
+  .day0 p { margin: 0; font-size: 14.5px; color: var(--ink-soft); }
+  .day0 p strong { color: var(--ink); }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; margin: 30px 0 10px; padding: 13px 18px; border: 1px dashed var(--line-strong); border-radius: 10px; font-family: var(--mono); font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+  .legend .li { display: inline-flex; align-items: center; gap: 7px; }
+  .flagdot, .lagdot, .clientdot { width: 11px; height: 11px; border-radius: 3px; display: inline-block; }
+  .flagdot { background: var(--flag); } .lagdot { background: var(--lag); } .clientdot { background: var(--brand); }
+
+  /* Weeks */
+  .week { display: grid; grid-template-columns: 128px 1fr; gap: 22px; margin-top: 20px; }
+  .week-rail { position: relative; }
+  .week-rail .wk { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
+  .week-rail .days { font-family: var(--serif); font-size: 30px; font-weight: 600; line-height: 1; margin-top: 6px; color: var(--ink); }
+  .week-rail .theme { font-size: 13px; color: var(--muted); margin-top: 8px; line-height: 1.4; }
+
+  .week-body { display: flex; flex-direction: column; gap: 10px; border-left: 2px solid var(--line); padding-left: 22px; margin-left: 4px; }
+  .task { background: var(--panel); border: 1px solid var(--line); border-radius: 11px; padding: 14px 16px; box-shadow: var(--shadow); }
+  .task-head { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .step { font-family: var(--mono); font-size: 11px; font-weight: 600; color: var(--paper); background: var(--accent); border-radius: 5px; padding: 2px 7px; letter-spacing: .03em; white-space: nowrap; }
+  .task-head h3 { font-size: 15.5px; font-weight: 650; margin: 0; letter-spacing: -.01em; flex: 1 1 auto; line-height: 1.3; }
+  .fchip { font-family: var(--mono); font-size: 10px; letter-spacing: .05em; text-transform: uppercase; padding: 2px 7px; border-radius: 5px; white-space: nowrap; border: 1px solid transparent; font-weight: 600; }
+  .fchip.lag { color: var(--lag); background: var(--lag-bg); border-color: color-mix(in srgb, var(--lag) 30%, transparent); }
+  .fchip.flag { color: var(--flag); background: var(--flag-bg); border-color: color-mix(in srgb, var(--flag) 30%, transparent); }
+  .fchip.client { color: var(--brand); background: var(--brand-bg); border-color: color-mix(in srgb, var(--brand) 30%, transparent); }
+  .task p { margin: 8px 0 0; font-size: 13.5px; color: var(--ink-soft); line-height: 1.5; }
+  .task p .why { color: var(--muted); }
+
+  .callouts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 40px; }
+  .callout { border: 1px solid var(--line); border-radius: 12px; padding: 20px 22px; box-shadow: var(--shadow); }
+  .callout.client { background: var(--brand-bg); border-left: 4px solid var(--brand); }
+  .callout.day30 { background: var(--go-bg); border-left: 4px solid var(--go); }
+  .callout h4 { font-family: var(--mono); text-transform: uppercase; letter-spacing: .09em; font-size: 12px; margin: 0 0 12px; }
+  .callout.client h4 { color: var(--brand); } .callout.day30 h4 { color: var(--go); }
+  .callout ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 8px; }
+  .callout li { font-size: 13.5px; color: var(--ink-soft); line-height: 1.45; }
+  .callout li strong { color: var(--ink); }
+
+  .note { margin-top: 20px; background: var(--panel-2); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 10px; padding: 18px 22px; }
+  .note h4 { font-family: var(--mono); text-transform: uppercase; letter-spacing: .1em; font-size: 12px; color: var(--accent); margin: 0 0 10px; }
+  .note p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+
+  footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 11.5px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  @media (max-width: 640px) {
+    .week { grid-template-columns: 1fr; gap: 10px; }
+    .week-body { border-left: none; padding-left: 0; margin-left: 0; }
+    .callouts { grid-template-columns: 1fr; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .week, .tally, .day0, .callout, .note { animation: rise .45s ease both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: none; } }
+  }
+</style>
+
+<div class="wrap">
+<div class="col">
+
+  <p class="eyebrow">30-Day Sprint Plan · The Loft Man · Steps 1–13</p>
+  <h1>Thirty days to plug the leaks<br><span class="thin">for Simon — sequenced, not just listed</span></h1>
+  <p class="standfirst">The signed scope covers Phases 0–1 of the roadmap: the fixes that recover the lost ground. The trick in a fixed month isn't the work, it's the <strong>order</strong> — firing the slow-to-verify items on day one and doing the things everything else depends on first.</p>
+
+  <div class="tally">
+    <div class="cell"><div class="n">13</div><div class="l">Steps in<br>scope</div></div>
+    <div class="cell"><div class="n">4</div><div class="l">Working<br>weeks</div></div>
+    <div class="cell"><div class="n flag">1</div><div class="l">Must start<br>on day 1</div></div>
+    <div class="cell"><div class="n brand">4</div><div class="l">Things needed<br>from Simon</div></div>
+  </div>
+
+  <div class="day0">
+    <span class="tag">⚑ Day 1, before anything</span>
+    <p><strong>Request Google Business Profile verification (step 1) immediately.</strong> The postcard/verification can take 5–14 days — start it now and it clears mid-month; leave it and it becomes the thing you're waiting on in week 4. Everything else can be worked while that clock runs.</p>
+  </div>
+
+  <div class="legend">
+    <span class="li"><span class="lagdot"></span> Has a lead-time / lag</span>
+    <span class="li"><span class="flagdot"></span> Blocks other steps</span>
+    <span class="li"><span class="clientdot"></span> Needs input from Simon</span>
+  </div>
+
+  <!-- WEEK 1 -->
+  <div class="week">
+    <div class="week-rail">
+      <div class="wk">Week 1</div>
+      <div class="days">Days<br>1–7</div>
+      <div class="theme">Access, instruments, and the slow clocks</div>
+    </div>
+    <div class="week-body">
+
+      <div class="task">
+        <div class="task-head"><span class="step">Access</span><h3>Delegated access + kickoff</h3><span class="fchip flag">Blocks all</span><span class="fchip client">Simon</span></div>
+        <p>Get added as manager/user (your own login) to GBP, Search Console, Analytics, Google Ads and the site/IONOS. Confirm the <span class="why">one true address &amp; phone with Simon, and collect job photos + the customer list.</span></p>
+      </div>
+
+      <div class="task">
+        <div class="task-head"><span class="step">Step 01</span><h3>Claim GBP &amp; request verification</h3><span class="fchip lag">5–14 day lag</span></div>
+        <p>Claim/create the profile and <strong>fire the verification today</strong>. Full optimisation (photos, services, posts) happens the moment it verifies in Week 2. <span class="why">This is the item that dictates the whole timeline.</span></p>
+      </div>
+
+      <div class="task">
+        <div class="task-head"><span class="step">Step 07</span><h3>Stand up measurement &amp; baseline</h3><span class="fchip flag">Do early</span></div>
+        <p>GA4, Search Console, call tracking, Ads conversion tracking. <span class="why">Baseline the numbers now so the day-30 report can prove what moved.</span></p>
+      </div>
+
+      <div class="task">
+        <div class="task-head"><span class="step">Step 03</span><h3>Lock the true NAP</h3><span class="fchip client">Simon</span><span class="fchip flag">Blocks 11</span></div>
+        <p>Settle the SN10 5HF vs 5FQ conflict and record the master name/address/phone. <span class="why">Citations (step 11) can't start until this is fixed.</span></p>
+      </div>
+
+      <div class="task">
+        <div class="task-head"><span class="step">Step 02</span><h3>Decide canonical domain + 301 redirect</h3><span class="fchip flag">Blocks 08</span></div>
+        <p>Check backlinks in Search Console, confirm <code>.com</code>, then redirect <code>.co.uk</code> domain-wide. <span class="why">On-page work (step 8) should only happen on the surviving site.</span></p>
+      </div>
+
+      <div class="task">
+        <div class="task-head"><span class="step">Steps 05 · 06</span><h3>Quick CRO wins on the live site</h3></div>
+        <p>Sticky click-to-call + WhatsApp, and hoist the Which? badge, rating and guarantees above the fold. <span class="why">Fast, and they can lift enquiries within the month itself.</span></p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WEEK 2 -->
+  <div class="week">
+    <div class="week-rail">
+      <div class="wk">Week 2</div>
+      <div class="days">Days<br>8–14</div>
+      <div class="theme">Foundations on the surviving site</div>
+    </div>
+    <div class="week-body">
+
+      <div class="task">
+        <div class="task-head"><span class="step">Step 01</span><h3>Fully optimise GBP (once verified)</h3><span class="fchip lag">On verify</span></div>
+        <p>Categories, services, service-area towns, real photos, hours, first posts. <span class="why">The moment the code lands, this goes from a shell to a lead source.</span></p>
+      </div>
+
+      <div class="task">
+        <div class="task-head"><span class="step">Step 04</span><h3>Switch the review engine on</h3></div>
+        <p>Follow-up text + QR review card pointing at the now-live Google profile; add a reviews widget to the site. <span class="why">Depends on GBP being verified first.</span></p>
+      </div>
+
+      <div class="task">
+        <div class="task-head"><span class="step">Step 08</span><h3>On-page SEO pass</h3></div>
+        <p>Unique, keyword-led title / meta / H1 per page on the canonical site — "loft boarding Devizes", "loft ladder fitted Wiltshire", etc.</p>
+      </div>
+
+      <div class="task">
+        <div class="task-head"><span class="step">Step 12</span><h3>Technical health fixes</h3></div>
+        <p>Speed, mobile, Core Web Vitals, sitemap, indexation, HTTPS. <span class="why">Confirm the redirect is clean and the right pages are indexing.</span></p>
+      </div>
+
+      <div class="task">
+        <div class="task-head"><span class="step">Step 11</span><h3>Citations &amp; directory cleanup</h3></div>
+        <p>Push the locked NAP to Bing Places, Apple Maps, Yell, Checkatrade, Bark, FreeIndex — fixing the conflicting-address mess.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WEEK 3 -->
+  <div class="week">
+    <div class="week-rail">
+      <div class="wk">Week 3</div>
+      <div class="days">Days<br>15–21</div>
+      <div class="theme">Build the pages that earn rankings</div>
+    </div>
+    <div class="week-body">
+
+      <div class="task">
+        <div class="task-head"><span class="step">Step 09</span><h3>Local landing pages per town</h3></div>
+        <p>Real pages for Devizes, Marlborough, Chippenham, Trowbridge, Melksham, Calne — each targeting "loft boarding [town]". The bulk build of the sprint.</p>
+      </div>
+
+      <div class="task">
+        <div class="task-head"><span class="step">Step 13</span><h3>Before / after job gallery</h3><span class="fchip client">Needs photos</span></div>
+        <p>Real finished-job photos, grouped by service. <span class="why">Chase Simon's photos in Week 1 so this isn't blocked here.</span></p>
+      </div>
+
+      <div class="task">
+        <div class="task-head"><span class="step">Step 10</span><h3>Structured-data markup</h3></div>
+        <p>LocalBusiness, Service, AggregateRating and FAQ schema across the site and new pages, so the rating shows in search.</p>
+      </div>
+
+      <div class="task">
+        <div class="task-head"><span class="step">Step 04</span><h3>Reviews compounding</h3></div>
+        <p>Second wave of review requests going out as jobs complete; monitor the count climbing on Google.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- WEEK 4 -->
+  <div class="week">
+    <div class="week-rail">
+      <div class="wk">Week 4</div>
+      <div class="days">Days<br>22–30</div>
+      <div class="theme">QA, proof, and the handover</div>
+    </div>
+    <div class="week-body">
+
+      <div class="task">
+        <div class="task-head"><span class="step">QA</span><h3>Finish &amp; quality-check the build</h3></div>
+        <p>Complete the landing pages, internal-link them, re-run speed/mobile, confirm redirects and indexation in Search Console.</p>
+      </div>
+
+      <div class="task">
+        <div class="task-head"><span class="step">Report</span><h3>Assemble the day-30 proof pack</h3></div>
+        <p>Before/after baseline, GBP insights (views, calls, direction taps), review count growth, tracking dashboard. <span class="why">This is what justifies the retainer conversation.</span></p>
+      </div>
+
+      <div class="task">
+        <div class="task-head"><span class="step">Next</span><h3>Handover &amp; pitch Phase 2</h3></div>
+        <p>Walk Simon through what's live and what compounds from here — teeing up steps 14–19 (redesign, Ads rebuild, Local Services Ads).</p>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="callouts">
+    <div class="callout client">
+      <h4>⚑ What you need from Simon — get it in week 1</h4>
+      <ul>
+        <li><strong>Delegated access</strong> to Google &amp; IONOS (his logins stay his).</li>
+        <li>The <strong>one true address &amp; postcode</strong> — settles the NAP conflict.</li>
+        <li><strong>Job photos</strong> (before/after) for the gallery and GBP.</li>
+        <li>His <strong>past-customer list</strong> and where the 53 reviews currently live.</li>
+      </ul>
+    </div>
+    <div class="callout day30">
+      <h4>✓ What Simon should expect on day 30</h4>
+      <ul>
+        <li><strong>Delivered:</strong> one site, live optimised map profile, reviews growing, tracking, town pages.</li>
+        <li><strong>Early leads:</strong> the GBP, reviews and click-to-call can produce enquiries <em>within</em> the month.</li>
+        <li><strong>Still compounding:</strong> organic rankings &amp; lead volume build over 60–90 days — set this expectation now so month one isn't judged on SEO alone.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="note">
+    <h4>The one risk to manage out loud</h4>
+    <p>Client delay is the only thing that breaks this plan — access, the address confirmation, or photos arriving late. Ask for all four in the Week 1 kickoff, in writing, and the GBP clock and the build both start on time. Everything else is within your control.</p>
+  </div>
+
+  <footer>
+    <span>The Loft Man · Simon · Devizes, Wiltshire</span>
+    <span>30-Day Sprint · Steps 1–13 · v1 · 30 Jul 2026</span>
+  </footer>
+
+</div>
+</div>

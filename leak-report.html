@@ -1,0 +1,381 @@
+<style>
+  :root {
+    --paper: #FAF7F0; --panel: #F1EADB; --panel-2: #EBE2CF; --line: #E0D5BF;
+    --line-strong: #CFC0A2; --ink: #241E15; --ink-soft: #4A4033; --muted: #7A6E58;
+    --accent: #A9691A; --accent-soft: #C68A38;
+    --go: #3E7A4C; --go-bg: #E4EEDE;
+    --brand: #3A5F7D; --brand-bg: #E1E9F0;
+    --sev-crit: #A93B2C; --sev-crit-bg: #F3E0DA;
+    --sev-high: #C67A1E; --sev-high-bg: #F3E7CF;
+    --sev-mod: #7A6E58; --sev-mod-bg: #ECE4D3;
+    --ok: #3E7A4C;
+    --shadow: 0 1px 2px rgba(36,30,21,.05), 0 8px 24px -12px rgba(36,30,21,.18);
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #1A1610; --panel: #221C14; --panel-2: #2A2318; --line: #362C1F;
+      --line-strong: #473A29; --ink: #F0E7D6; --ink-soft: #D3C7B1; --muted: #A99A80;
+      --accent: #E0A03B; --accent-soft: #C88630;
+      --go: #7FB98A; --go-bg: #22301F;
+      --brand: #7FAAD0; --brand-bg: #1E2A34;
+      --sev-crit: #E08272; --sev-crit-bg: #33211C;
+      --sev-high: #DD9A44; --sev-high-bg: #2E2716;
+      --sev-mod: #A99A80; --sev-mod-bg: #26201700; --sev-mod-bg: #2A2318;
+      --ok: #7FB98A;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="light"] {
+    --paper: #FAF7F0; --panel: #F1EADB; --panel-2: #EBE2CF; --line: #E0D5BF;
+    --line-strong: #CFC0A2; --ink: #241E15; --ink-soft: #4A4033; --muted: #7A6E58;
+    --accent: #A9691A; --accent-soft: #C68A38; --go: #3E7A4C; --go-bg: #E4EEDE;
+    --brand: #3A5F7D; --brand-bg: #E1E9F0;
+    --sev-crit: #A93B2C; --sev-crit-bg: #F3E0DA; --sev-high: #C67A1E; --sev-high-bg: #F3E7CF;
+    --sev-mod: #7A6E58; --sev-mod-bg: #ECE4D3; --ok: #3E7A4C;
+    --shadow: 0 1px 2px rgba(36,30,21,.05), 0 8px 24px -12px rgba(36,30,21,.18);
+  }
+  :root[data-theme="dark"] {
+    --paper: #1A1610; --panel: #221C14; --panel-2: #2A2318; --line: #362C1F;
+    --line-strong: #473A29; --ink: #F0E7D6; --ink-soft: #D3C7B1; --muted: #A99A80;
+    --accent: #E0A03B; --accent-soft: #C88630; --go: #7FB98A; --go-bg: #22301F;
+    --brand: #7FAAD0; --brand-bg: #1E2A34;
+    --sev-crit: #E08272; --sev-crit-bg: #33211C; --sev-high: #DD9A44; --sev-high-bg: #2E2716;
+    --sev-mod: #A99A80; --sev-mod-bg: #2A2318; --ok: #7FB98A;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .wrap { background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; padding: clamp(20px,5vw,56px) 20px 80px; }
+  .col { max-width: 920px; margin: 0 auto; }
+
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
+  h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(29px,5.6vw,48px); line-height: 1.05; letter-spacing: -.01em; text-wrap: balance; margin: 0 0 18px; }
+  h1 .thin { color: var(--muted); }
+  .standfirst { font-size: clamp(16px,2.3vw,19px); color: var(--ink-soft); max-width: 64ch; margin: 0; }
+  .standfirst strong { color: var(--ink); font-weight: 600; }
+
+  .tally { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin: 30px 0 8px; box-shadow: var(--shadow); }
+  .tally .cell { background: var(--panel); padding: 15px 18px; }
+  .tally .n { font-family: var(--serif); font-size: 27px; font-weight: 600; line-height: 1; font-variant-numeric: tabular-nums; }
+  .tally .n.crit { color: var(--sev-crit); }
+  .tally .n.high { color: var(--sev-high); }
+  .tally .n.mod { color: var(--sev-mod); }
+  .tally .n.ver { color: var(--brand); }
+  .tally .l { font-family: var(--mono); font-size: 11px; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); margin-top: 8px; line-height: 1.35; }
+  .caption { font-size: 13px; color: var(--muted); margin: 12px 0 0; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: center; margin: 34px 0 6px; padding: 14px 18px; border: 1px dashed var(--line-strong); border-radius: 10px; font-family: var(--mono); font-size: 11.5px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+  .legend .li { display: inline-flex; align-items: center; gap: 8px; }
+  .swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
+  .leaks { display: flex; flex-direction: column; gap: 16px; margin-top: 26px; }
+  .leak { --sev: var(--sev-mod); --sev-bg: var(--sev-mod-bg); background: var(--panel); border: 1px solid var(--line); border-left: 5px solid var(--sev); border-radius: 12px; padding: 20px 22px; box-shadow: var(--shadow); }
+  .leak.crit { --sev: var(--sev-crit); --sev-bg: var(--sev-crit-bg); }
+  .leak.high { --sev: var(--sev-high); --sev-bg: var(--sev-high-bg); }
+  .leak.mod  { --sev: var(--sev-mod);  --sev-bg: var(--sev-mod-bg); }
+
+  .leak-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  .leak-head .idx { font-family: var(--serif); font-size: 20px; font-weight: 600; color: var(--sev); font-variant-numeric: tabular-nums; line-height: 1; }
+  .leak-head h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(18px,2.7vw,22px); margin: 0; letter-spacing: -.01em; flex: 1 1 260px; line-height: 1.2; }
+  .chip { font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; padding: 3px 8px; border-radius: 5px; white-space: nowrap; border: 1px solid transparent; }
+  .chip.sev { color: var(--sev); background: var(--sev-bg); border-color: color-mix(in srgb, var(--sev) 30%, transparent); font-weight: 600; }
+  .chip.status { color: var(--muted); background: var(--panel-2); border-color: var(--line-strong); }
+  .chip.status.confirmed { color: var(--ok); border-color: color-mix(in srgb, var(--ok) 35%, transparent); }
+
+  .rows { display: flex; flex-direction: column; gap: 11px; margin-bottom: 16px; }
+  .row { display: grid; grid-template-columns: 92px 1fr; gap: 14px; align-items: start; }
+  .row .k { font-family: var(--mono); font-size: 10.5px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); padding-top: 3px; }
+  .row .v { font-size: 14.5px; color: var(--ink-soft); }
+  .row .v strong { color: var(--ink); font-weight: 600; }
+  .row.where .v { font-family: var(--mono); font-size: 12.5px; line-height: 1.7; color: var(--ink-soft); background: var(--panel-2); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; }
+  .row.where .v code { color: var(--accent); }
+
+  .benefits { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .benefit { border-top: 3px solid var(--bcolor); background: var(--panel-2); border-radius: 0 0 8px 8px; padding: 11px 13px 13px; }
+  .benefit.mkt { --bcolor: var(--accent); }
+  .benefit.leads { --bcolor: var(--go); }
+  .benefit.brand { --bcolor: var(--brand); }
+  .benefit .bl { font-family: var(--mono); font-size: 10.5px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; color: var(--bcolor); margin-bottom: 6px; }
+  .benefit p { margin: 0; font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+
+  .note { margin-top: 40px; background: var(--panel-2); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 10px; padding: 20px 24px; }
+  .note h4 { font-family: var(--mono); text-transform: uppercase; letter-spacing: .1em; font-size: 12px; color: var(--accent); margin: 0 0 10px; }
+  .note p { margin: 0; color: var(--ink-soft); font-size: 14.5px; }
+
+  footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 11.5px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  @media (max-width: 620px) {
+    .benefits { grid-template-columns: 1fr; }
+    .row { grid-template-columns: 1fr; gap: 4px; }
+    .row .k { padding-top: 0; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .leak, .tally, .note { animation: rise .45s ease both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: none; } }
+  }
+</style>
+
+<div class="wrap">
+<div class="col">
+
+  <p class="eyebrow">Leak Report · The Loft Man · Companion to the Growth Roadmap</p>
+  <h1>Where the leads are<br><span class="thin">leaking out — and why plugging each one pays</span></h1>
+  <p class="standfirst">Eleven places the business is quietly losing visibility, enquiries, or trust right now. Each entry says <strong>where to go and check it</strong>, <strong>how to fix it</strong>, and what it's worth across three lenses — <strong>marketing</strong> (getting found), <strong>leads</strong> (turning visits into enquiries), and <strong>brand</strong> (how established he looks).</p>
+
+  <div class="tally">
+    <div class="cell"><div class="n crit">3</div><div class="l">Critical<br>leaks</div></div>
+    <div class="cell"><div class="n high">5</div><div class="l">High<br>priority</div></div>
+    <div class="cell"><div class="n mod">3</div><div class="l">Moderate</div></div>
+    <div class="cell"><div class="n ver">2</div><div class="l">Need access<br>to confirm</div></div>
+  </div>
+  <p class="caption">Confirmed items were verified from public search and both live sites (30 Jul 2026). "Verify" items are strong inferences to check the moment delegated account access is in place.</p>
+
+  <div class="legend">
+    <span class="li"><span class="swatch" style="background:var(--sev-crit)"></span> Critical — bleeding badly now</span>
+    <span class="li"><span class="swatch" style="background:var(--sev-high)"></span> High</span>
+    <span class="li"><span class="swatch" style="background:var(--sev-mod)"></span> Moderate</span>
+    <span class="li"><span class="swatch" style="background:var(--accent)"></span> Marketing</span>
+    <span class="li"><span class="swatch" style="background:var(--go)"></span> Leads</span>
+    <span class="li"><span class="swatch" style="background:var(--brand)"></span> Brand</span>
+  </div>
+
+  <div class="leaks">
+
+    <!-- 1 -->
+    <article class="leak crit">
+      <div class="leak-head">
+        <span class="idx">01</span>
+        <h2>Two websites competing with each other</h2>
+        <span class="chip sev">Critical</span>
+        <span class="chip status confirmed">Confirmed</span>
+      </div>
+      <div class="rows">
+        <div class="row"><div class="k">The leak</div><div class="v"><code>.com</code> and <code>.co.uk</code> carry near-identical content for the same business. They split his link authority, create duplicate content, and cannibalise each other's rankings — two weak signals where there should be one strong one.</div></div>
+        <div class="row where"><div class="k">Where to check</div><div class="v">Google: <code>site:theloftman.com</code> then <code>site:theloftman.co.uk</code> — both are indexed<br>Search Console → add both as properties → compare impressions &amp; the Links report<br>IONOS → confirm he owns both domains &amp; where each points</div></div>
+        <div class="row"><div class="k">The fix</div><div class="v">Pick the canonical domain (<code>.com</code> holds the authority), 301-redirect the other domain-wide, port the sharper <code>.co.uk</code> title onto it, then resubmit the sitemap.</div></div>
+      </div>
+      <div class="benefits">
+        <div class="benefit mkt"><div class="bl">Marketing</div><p>All SEO authority pools into one domain — one strong contender instead of two also-rans.</p></div>
+        <div class="benefit leads"><div class="bl">Leads</div><p>Every ranking sends visitors to a single, maintained page built to convert.</p></div>
+        <div class="benefit brand"><div class="bl">Brand</div><p>One coherent presence, not two half-tended sites a customer could stumble between.</p></div>
+      </div>
+    </article>
+
+    <!-- 2 -->
+    <article class="leak crit">
+      <div class="leak-head">
+        <span class="idx">02</span>
+        <h2>No presence in the Google map pack</h2>
+        <span class="chip sev">Critical</span>
+        <span class="chip status confirmed">Confirmed</span>
+      </div>
+      <div class="rows">
+        <div class="row"><div class="k">The leak</div><div class="v">No Google Business Profile surfaced in search — so he's absent from the map results that sit <strong>above</strong> the normal links and capture most "near me" local demand. For a trade, this is usually the single biggest lead source, and it's free.</div></div>
+        <div class="row where"><div class="k">Where to check</div><div class="v">Google &amp; Google Maps: search <code>loft boarding Devizes</code> — is he in the 3-pin pack?<br>Maps: look for an unclaimed pin at his address<br><code>business.google.com</code> → is a profile claimed &amp; verified?</div></div>
+        <div class="row"><div class="k">The fix</div><div class="v">Claim or create the profile, verify it, then fully populate: categories, services, service-area towns, real job photos, hours, and weekly posts.</div></div>
+      </div>
+      <div class="benefits">
+        <div class="benefit mkt"><div class="bl">Marketing</div><p>Puts him in the most prominent slot in local search — prime, unpaid real estate.</p></div>
+        <div class="benefit leads"><div class="bl">Leads</div><p>Map listings drive calls and direction taps directly, often the top enquiry channel.</p></div>
+        <div class="benefit brand"><div class="bl">Brand</div><p>A complete, photo-rich, reviewed profile looks legit at the exact moment of choosing.</p></div>
+      </div>
+    </article>
+
+    <!-- 3 -->
+    <article class="leak crit">
+      <div class="leak-head">
+        <span class="idx">03</span>
+        <h2>Inconsistent name, address &amp; phone (NAP)</h2>
+        <span class="chip sev">Critical</span>
+        <span class="chip status confirmed">Confirmed</span>
+      </div>
+      <div class="rows">
+        <div class="row"><div class="k">The leak</div><div class="v">His details don't match across the web — the site says postcode <strong>SN10 5HF</strong>, directories say <strong>SN10 5FQ</strong>, and the name appears as both "The Loft Man" and "The Loft Man (Wilts) Ltd". Google can't fully trust a business whose own details disagree.</div></div>
+        <div class="row where"><div class="k">Where to check</div><div class="v">His site's footer &amp; contact page · the GBP · Which? Trusted Trader · Yell / Cylex / UK Small Business Directory · Facebook "About". List each and spot the mismatches.</div></div>
+        <div class="row"><div class="k">The fix</div><div class="v">Decide the one true NAP, record it on a master sheet, then update every listing to match it character-for-character.</div></div>
+      </div>
+      <div class="benefits">
+        <div class="benefit mkt"><div class="bl">Marketing</div><p>Consistent NAP is a core local-ranking trust signal — matching details lift map position.</p></div>
+        <div class="benefit leads"><div class="bl">Leads</div><p>Customers reach the right phone and address — no misdials, no lost enquiries.</p></div>
+        <div class="benefit brand"><div class="bl">Brand</div><p>Precise, uniform details read as professional; conflicting ones read as sloppy.</p></div>
+      </div>
+    </article>
+
+    <!-- 4 -->
+    <article class="leak high">
+      <div class="leak-head">
+        <span class="idx">04</span>
+        <h2>A 4.92★ review asset sitting dormant</h2>
+        <span class="chip sev">High</span>
+        <span class="chip status confirmed">Confirmed</span>
+      </div>
+      <div class="rows">
+        <div class="row"><div class="k">The leak</div><div class="v">53 reviews at 4.92★ exist — but appear to live on Which?/third-party widgets, not Google, and aren't growing. Review count, freshness and velocity are what feed both local rankings and buyer confidence; frozen reviews do neither.</div></div>
+        <div class="row where"><div class="k">Where to check</div><div class="v">Confirm where the 53 reviews sit today (Which? / Trustindex vs Google)<br>GBP → how many Google reviews, and how recent is the newest?<br>His site → are reviews shown on-page at all?</div></div>
+        <div class="row"><div class="k">The fix</div><div class="v">Funnel every finished job to a Google review (follow-up text + a QR "leave a review" card), and surface fresh reviews on the site via a widget.</div></div>
+      </div>
+      <div class="benefits">
+        <div class="benefit mkt"><div class="bl">Marketing</div><p>Review quantity, recency and velocity are direct local-ranking factors.</p></div>
+        <div class="benefit leads"><div class="bl">Leads</div><p>Visible stars lift click-through and close hesitant buyers — social proof at the decision point.</p></div>
+        <div class="benefit brand"><div class="bl">Brand</div><p>A steady stream of recent 5★ reviews signals a business busy and trusted <em>now</em>.</p></div>
+      </div>
+    </article>
+
+    <!-- 5 -->
+    <article class="leak high">
+      <div class="leak-head">
+        <span class="idx">05</span>
+        <h2>Contact form is the only way to reach him</h2>
+        <span class="chip sev">High</span>
+        <span class="chip status confirmed">Confirmed</span>
+      </div>
+      <div class="rows">
+        <div class="row"><div class="k">The leak</div><div class="v">The site's only call-to-action is a "contact us" form. Most trade enquiries are phone calls and most of this traffic is on a phone — so the impatient, ready-to-book visitor has no one-tap way to call and quietly bounces.</div></div>
+        <div class="row where"><div class="k">Where to check</div><div class="v">Open both sites on a phone: is there a tap-to-call button? A sticky CTA? How many fields does the contact form ask for before you can send anything?</div></div>
+        <div class="row"><div class="k">The fix</div><div class="v">Add a sticky click-to-call and WhatsApp button on mobile, and cut the form to the essentials (postcode, job type, phone).</div></div>
+      </div>
+      <div class="benefits">
+        <div class="benefit mkt"><div class="bl">Marketing</div><p>A higher conversion rate makes every visit — paid or organic — worth more, lowering effective cost per lead.</p></div>
+        <div class="benefit leads"><div class="bl">Leads</div><p>Removing friction on the phone-call path directly increases enquiries from the same traffic.</p></div>
+        <div class="benefit brand"><div class="bl">Brand</div><p>"Easy to reach, quick to answer" fits the honest-local-tradesman promise; a wall of fields feels cold.</p></div>
+      </div>
+    </article>
+
+    <!-- 6 -->
+    <article class="leak high">
+      <div class="leak-head">
+        <span class="idx">06</span>
+        <h2>No measurement or conversion tracking</h2>
+        <span class="chip sev">High</span>
+        <span class="chip status">Verify</span>
+      </div>
+      <div class="rows">
+        <div class="row"><div class="k">The leak</div><div class="v">There's likely no proper GA4, Search Console, call tracking or Ads conversion tracking — so nobody can see which channels actually produce enquiries, or measure the traffic decline he's worried about. Every other fix is flying blind without this.</div></div>
+        <div class="row where"><div class="k">Where to check</div><div class="v">View-source for a GA4 / gtag tag<br><code>search.google.com/search-console</code> → is the site verified?<br>Google Ads → is conversion tracking switched on? · Ask him if calls are tracked at all</div></div>
+        <div class="row"><div class="k">The fix</div><div class="v">Install GA4, verify Search Console, add call tracking and Ads conversion tracking — then baseline the numbers before changing anything else.</div></div>
+      </div>
+      <div class="benefits">
+        <div class="benefit mkt"><div class="bl">Marketing</div><p>The instrument panel for everything — you can't improve rankings or spend you can't measure.</p></div>
+        <div class="benefit leads"><div class="bl">Leads</div><p>Shows which channels bring real enquiries, so effort and budget follow the leads.</p></div>
+        <div class="benefit brand"><div class="bl">Brand</div><p>Turns his marketing into an accountable operation — evidence-led decisions, provable ROI.</p></div>
+      </div>
+    </article>
+
+    <!-- 7 -->
+    <article class="leak high">
+      <div class="leak-head">
+        <span class="idx">07</span>
+        <h2>Dated site, likely slow on mobile</h2>
+        <span class="chip sev">High</span>
+        <span class="chip status">Verify</span>
+      </div>
+      <div class="rows">
+        <div class="row"><div class="k">The leak</div><div class="v">The site looks its age, and dated builds are usually slow and awkward on a phone. Speed and mobile-friendliness are ranking factors, and a clunky first impression makes a skilled 13-year craftsman look out of date before he's said a word.</div></div>
+        <div class="row where"><div class="k">Where to check</div><div class="v"><code>pagespeed.web.dev</code> → run both URLs, note the mobile Core Web Vitals scores<br>Open the site on a mid-range phone — how does it load and scroll?</div></div>
+        <div class="row"><div class="k">The fix</div><div class="v">A modern, fast, mobile-first rebuild (Phase 2 of the roadmap) with one clear value proposition.</div></div>
+      </div>
+      <div class="benefits">
+        <div class="benefit mkt"><div class="bl">Marketing</div><p>Speed and mobile-friendliness are ranking signals — slow sites shed rankings and impatient users.</p></div>
+        <div class="benefit leads"><div class="bl">Leads</div><p>A faster, cleaner site lowers bounce and lifts the share of visitors who actually enquire.</p></div>
+        <div class="benefit brand"><div class="bl">Brand</div><p>The site is often the first impression now, not the work — it should look as sharp as his finish.</p></div>
+      </div>
+    </article>
+
+    <!-- 8 -->
+    <article class="leak mod">
+      <div class="leak-head">
+        <span class="idx">08</span>
+        <h2>Trust signals buried below the fold</h2>
+        <span class="chip sev">Moderate</span>
+        <span class="chip status confirmed">Confirmed</span>
+      </div>
+      <div class="rows">
+        <div class="row"><div class="k">The leak</div><div class="v">His hard-won proof — the Which? Trusted Trader badge, the star rating, "13+ years · fully insured · guaranteed" — isn't in the hero. Visitors decide in seconds whether to trust a trade, and right now they have to scroll to find the reasons.</div></div>
+        <div class="row where"><div class="k">Where to check</div><div class="v">Load the homepage on mobile and desktop: without scrolling, can you see the Which? badge, the rating, and the guarantees?</div></div>
+        <div class="row"><div class="k">The fix</div><div class="v">Hoist the badge, star rating and key guarantees into the above-the-fold hero.</div></div>
+      </div>
+      <div class="benefits">
+        <div class="benefit mkt"><div class="bl">Marketing</div><p>A stronger first impression cuts bounce — a modest but real engagement gain.</p></div>
+        <div class="benefit leads"><div class="bl">Leads</div><p>Trust shown before the scroll keeps more visitors on the page and moving toward an enquiry.</p></div>
+        <div class="benefit brand"><div class="bl">Brand</div><p>Leads with his credibility instead of hiding it — the badge is worth nothing unseen.</p></div>
+      </div>
+    </article>
+
+    <!-- 9 -->
+    <article class="leak mod">
+      <div class="leak-head">
+        <span class="idx">09</span>
+        <h2>No structured-data (schema) markup</h2>
+        <span class="chip sev">Moderate</span>
+        <span class="chip status confirmed">Confirmed</span>
+      </div>
+      <div class="rows">
+        <div class="row"><div class="k">The leak</div><div class="v">The pages have no schema markup, so Google can't pull his rating, services or FAQs into the search result itself. He's leaving free, attention-grabbing space in the listing unused.</div></div>
+        <div class="row where"><div class="k">Where to check</div><div class="v"><code>search.google.com/test/rich-results</code> → run his URLs<br>View-source and search for <code>application/ld+json</code> — likely nothing there</div></div>
+        <div class="row"><div class="k">The fix</div><div class="v">Add LocalBusiness, Service, AggregateRating and FAQ schema across the site.</div></div>
+      </div>
+      <div class="benefits">
+        <div class="benefit mkt"><div class="bl">Marketing</div><p>Unlocks rich results (stars, FAQs) — a more prominent, higher click-through listing.</p></div>
+        <div class="benefit leads"><div class="bl">Leads</div><p>A result showing 4.92★ and answers pulls more clicks from the very same ranking.</p></div>
+        <div class="benefit brand"><div class="bl">Brand</div><p>A polished, information-rich listing looks more credible than a plain blue link.</p></div>
+      </div>
+    </article>
+
+    <!-- 10 -->
+    <article class="leak mod">
+      <div class="leak-head">
+        <span class="idx">10</span>
+        <h2>Thin, duplicated on-page SEO</h2>
+        <span class="chip sev">Moderate</span>
+        <span class="chip status confirmed">Confirmed</span>
+      </div>
+      <div class="rows">
+        <div class="row"><div class="k">The leak</div><div class="v">Page titles and descriptions are generic and — across the two domains — duplicated. They don't target how people actually search ("loft boarding Devizes", "loft ladder fitted Wiltshire"), so he ranks for far less than he could.</div></div>
+        <div class="row where"><div class="k">Where to check</div><div class="v">View-source each page's <code>&lt;title&gt;</code> and meta description, or read them in Search Console → Pages. Compare the two domains for identical text.</div></div>
+        <div class="row"><div class="k">The fix</div><div class="v">Write a unique, keyword-led title, meta description and single H1 for every page on the canonical site.</div></div>
+      </div>
+      <div class="benefits">
+        <div class="benefit mkt"><div class="bl">Marketing</div><p>Titles that name the service and town lift rankings for the searches that actually buy.</p></div>
+        <div class="benefit leads"><div class="bl">Leads</div><p>Clear, specific titles and descriptions earn more clicks from the results page.</p></div>
+        <div class="benefit brand"><div class="bl">Brand</div><p>Precise page titles read as a business that knows exactly what it does and where.</p></div>
+      </div>
+    </article>
+
+    <!-- 11 -->
+    <article class="leak mod">
+      <div class="leak-head">
+        <span class="idx">11</span>
+        <h2>Brand-name confusion with look-alikes</h2>
+        <span class="chip sev">Moderate</span>
+        <span class="chip status confirmed">Confirmed</span>
+      </div>
+      <div class="rows">
+        <div class="row"><div class="k">The leak</div><div class="v">Similarly named traders (e.g. "The Loft Ladder Man") show up around his brand searches. Anyone specifically looking for <em>him</em> can land on a competitor instead — leaked traffic he already earned by reputation.</div></div>
+        <div class="row where"><div class="k">Where to check</div><div class="v">Google his brand terms: <code>the loft man devizes</code>, <code>the loft man wiltshire</code> — see who else appears and whether his own profile dominates.</div></div>
+        <div class="row"><div class="k">The fix</div><div class="v">Own his branded search: a strong verified GBP, consistent naming everywhere, branded content, and secured social handles.</div></div>
+      </div>
+      <div class="benefits">
+        <div class="benefit mkt"><div class="bl">Marketing</div><p>Owning branded search protects the traffic of people already hunting for him by name.</p></div>
+        <div class="benefit leads"><div class="bl">Leads</div><p>Stops a ready-to-buy customer accidentally handing the job to a look-alike.</p></div>
+        <div class="benefit brand"><div class="bl">Brand</div><p>Cements "The Loft Man" as <em>the</em> recognised name across his patch of Wiltshire.</p></div>
+      </div>
+    </article>
+
+  </div>
+
+  <div class="note">
+    <h4>How to read this alongside the roadmap</h4>
+    <p>These are the <strong>bleeds</strong> — things actively costing him now — so they map onto Phases 0–2 of the growth roadmap, front-loaded on purpose. Fix the three critical leaks first (they're cheap and fast), stand up measurement so you can prove the rest, then work down the list. The "verify" items just need a look once delegated account access is in place — don't guess, confirm.</p>
+  </div>
+
+  <footer>
+    <span>The Loft Man · Devizes, Wiltshire</span>
+    <span>Leak Report · v1 · 30 Jul 2026</span>
+  </footer>
+
+</div>
+</div>

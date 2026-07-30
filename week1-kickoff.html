@@ -1,0 +1,233 @@
+<style>
+  :root {
+    --paper: #FAF7F0; --panel: #F1EADB; --panel-2: #EBE2CF; --line: #E0D5BF;
+    --line-strong: #CFC0A2; --ink: #241E15; --ink-soft: #4A4033; --muted: #7A6E58;
+    --accent: #A9691A; --accent-soft: #C68A38;
+    --go: #3E7A4C; --go-bg: #E4EEDE;
+    --brand: #3A5F7D; --brand-bg: #E1E9F0;
+    --flag: #A93B2C; --flag-bg: #F3E0DA;
+    --lag: #C67A1E; --lag-bg: #F3E7CF;
+    --shadow: 0 1px 2px rgba(36,30,21,.05), 0 8px 24px -12px rgba(36,30,21,.18);
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #1A1610; --panel: #221C14; --panel-2: #2A2318; --line: #362C1F;
+      --line-strong: #473A29; --ink: #F0E7D6; --ink-soft: #D3C7B1; --muted: #A99A80;
+      --accent: #E0A03B; --accent-soft: #C88630; --go: #7FB98A; --go-bg: #22301F;
+      --brand: #7FAAD0; --brand-bg: #1E2A34; --flag: #E08272; --flag-bg: #33211C;
+      --lag: #DD9A44; --lag-bg: #2E2716;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="light"] {
+    --paper: #FAF7F0; --panel: #F1EADB; --panel-2: #EBE2CF; --line: #E0D5BF;
+    --line-strong: #CFC0A2; --ink: #241E15; --ink-soft: #4A4033; --muted: #7A6E58;
+    --accent: #A9691A; --accent-soft: #C68A38; --go: #3E7A4C; --go-bg: #E4EEDE;
+    --brand: #3A5F7D; --brand-bg: #E1E9F0; --flag: #A93B2C; --flag-bg: #F3E0DA;
+    --lag: #C67A1E; --lag-bg: #F3E7CF;
+    --shadow: 0 1px 2px rgba(36,30,21,.05), 0 8px 24px -12px rgba(36,30,21,.18);
+  }
+  :root[data-theme="dark"] {
+    --paper: #1A1610; --panel: #221C14; --panel-2: #2A2318; --line: #362C1F;
+    --line-strong: #473A29; --ink: #F0E7D6; --ink-soft: #D3C7B1; --muted: #A99A80;
+    --accent: #E0A03B; --accent-soft: #C88630; --go: #7FB98A; --go-bg: #22301F;
+    --brand: #7FAAD0; --brand-bg: #1E2A34; --flag: #E08272; --flag-bg: #33211C;
+    --lag: #DD9A44; --lag-bg: #2E2716;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .wrap { background: var(--paper); color: var(--ink); font-family: var(--sans); line-height: 1.55; -webkit-font-smoothing: antialiased; padding: clamp(20px,5vw,56px) 20px 80px; }
+  .col { max-width: 920px; margin: 0 auto; }
+
+  .eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin: 0 0 14px; }
+  h1 { font-family: var(--serif); font-weight: 600; font-size: clamp(29px,5.6vw,48px); line-height: 1.05; letter-spacing: -.01em; text-wrap: balance; margin: 0 0 18px; }
+  h1 .thin { color: var(--muted); }
+  .standfirst { font-size: clamp(16px,2.3vw,19px); color: var(--ink-soft); max-width: 64ch; margin: 0; }
+  .standfirst strong { color: var(--ink); font-weight: 600; }
+
+  .day1 { display: flex; gap: 16px; align-items: flex-start; margin: 30px 0 8px; background: var(--flag-bg); border: 1px solid color-mix(in srgb, var(--flag) 32%, transparent); border-left: 5px solid var(--flag); border-radius: 12px; padding: 18px 20px; }
+  .day1 .tag { font-family: var(--mono); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--flag); white-space: nowrap; padding-top: 2px; }
+  .day1 p { margin: 0; font-size: 14.5px; color: var(--ink-soft); }
+  .day1 p strong { color: var(--ink); }
+
+  section { margin-top: 44px; }
+  .shead { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; padding-bottom: 12px; border-bottom: 2px solid var(--ink); margin-bottom: 20px; }
+  .shead .n { font-family: var(--mono); font-size: 12px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--paper); background: var(--ink); padding: 4px 9px; border-radius: 5px; }
+  .shead h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(20px,3.2vw,26px); margin: 0; letter-spacing: -.01em; }
+  .shead .hint { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-left: auto; letter-spacing: .03em; }
+
+  .lede { font-size: 14.5px; color: var(--ink-soft); margin: -6px 0 18px; max-width: 70ch; }
+  .lede strong { color: var(--ink); }
+
+  /* access table */
+  .tblwrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); }
+  table { border-collapse: collapse; width: 100%; min-width: 560px; background: var(--panel); font-size: 13.5px; }
+  thead th { text-align: left; font-family: var(--mono); font-size: 10.5px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); background: var(--panel-2); padding: 11px 14px; border-bottom: 1px solid var(--line); font-weight: 600; }
+  tbody td { padding: 12px 14px; border-bottom: 1px solid var(--line); vertical-align: top; color: var(--ink-soft); }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody td:first-child { font-weight: 650; color: var(--ink); white-space: nowrap; }
+  td .role { font-family: var(--mono); font-size: 11px; color: var(--accent); }
+  td .why { color: var(--muted); font-size: 12.5px; }
+
+  /* checklist cards */
+  .checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px,1fr)); gap: 12px; }
+  .check { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 15px 17px; box-shadow: var(--shadow); }
+  .check .box { font-family: var(--mono); color: var(--accent); font-weight: 700; margin-right: 6px; }
+  .check h3 { font-size: 15px; font-weight: 650; margin: 0 0 5px; letter-spacing: -.01em; }
+  .check p { margin: 0; font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+  .check p .why { color: var(--muted); }
+
+  /* NAP sheet */
+  .nap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; box-shadow: var(--shadow); }
+  .nap table { min-width: 520px; }
+  .nap td.field { font-weight: 650; color: var(--ink); white-space: nowrap; }
+  .nap td.current { color: var(--muted); font-family: var(--mono); font-size: 12.5px; }
+  .nap td.confirm { background: var(--go-bg); color: var(--go); font-family: var(--mono); font-size: 12.5px; font-weight: 600; }
+  .nap .conflict { color: var(--flag); font-weight: 600; }
+
+  .send { margin-top: 20px; background: var(--brand-bg); border: 1px solid var(--line); border-left: 4px solid var(--brand); border-radius: 12px; padding: 20px 24px; }
+  .send h4 { font-family: var(--mono); text-transform: uppercase; letter-spacing: .09em; font-size: 12px; color: var(--brand); margin: 0 0 12px; }
+  .send .msg { background: var(--panel); border: 1px dashed var(--line-strong); border-radius: 8px; padding: 16px 18px; font-size: 14px; color: var(--ink-soft); line-height: 1.6; }
+  .send .msg p { margin: 0 0 10px; }
+  .send .msg p:last-child { margin-bottom: 0; }
+
+  .note { margin-top: 20px; background: var(--panel-2); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 10px; padding: 18px 22px; }
+  .note h4 { font-family: var(--mono); text-transform: uppercase; letter-spacing: .1em; font-size: 12px; color: var(--accent); margin: 0 0 8px; }
+  .note p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+
+  footer { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--line); font-family: var(--mono); font-size: 11.5px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    section, .day1, .send { animation: rise .45s ease both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: none; } }
+  }
+</style>
+
+<div class="wrap">
+<div class="col">
+
+  <p class="eyebrow">Week 1 Kickoff Pack · The Loft Man · Steps 1–13</p>
+  <h1>Getting unblocked<br><span class="thin">so the 30-day clock starts clean</span></h1>
+  <p class="standfirst">You can't start a single deliverable until Simon's access and materials are in hand — so this is the real first job. Get everything below sorted in the first few days and the whole sprint runs on time. <strong>The one thing that can't wait is the Google verification.</strong></p>
+
+  <div class="day1">
+    <span class="tag">⚑ The moment you have access</span>
+    <p><strong>Fire the Google Business Profile verification (step 1) first.</strong> The postcard/code can take 5–14 days — start it on day one and it clears mid-month; leave it and it's the thing you're stuck waiting on in week 4. Everything else can be worked while that clock ticks.</p>
+  </div>
+
+  <!-- SECTION 1: SETUP CALL -->
+  <section>
+    <div class="shead"><span class="n">01</span><h2>Book one 20-minute setup call</h2><span class="hint">The shortcut for an older client</span></div>
+    <p class="lede">Don't email Simon a list of login instructions — for someone in his 60s that's friction and a support headache. <strong>Do the access together on one short screen-share (or in person), you talking him through each click.</strong> It's faster, it's reassuring for him, and you walk away with everything set up in one go. The tables below are <em>your</em> checklist for that call, not a to-do list to send him.</p>
+  </section>
+
+  <!-- SECTION 2: ACCESS -->
+  <section>
+    <div class="shead"><span class="n">02</span><h2>Access to set up on the call</h2><span class="hint">Delegated — his logins stay his</span></div>
+    <p class="lede">Add yourself under your <strong>own</strong> Google login wherever possible, so nothing depends on shared passwords and either of you can revoke later.</p>
+    <div class="tblwrap">
+      <table>
+        <thead><tr><th>Platform</th><th>What you need</th><th>How Simon grants it</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Google Business&nbsp;Profile</td>
+            <td><span class="role">Manager</span><div class="why">The map listing — top priority.</div></td>
+            <td>Profile → Menu → <em>Business Profile settings</em> → <em>People &amp; access</em> → <em>Add</em> → your email.</td>
+          </tr>
+          <tr>
+            <td>Search Console</td>
+            <td><span class="role">Full user</span><div class="why">Rankings, indexing, backlinks.</div></td>
+            <td>May need domain verification via IONOS DNS — do that same session.</td>
+          </tr>
+          <tr>
+            <td>Google Analytics (GA4)</td>
+            <td><span class="role">Administrator</span><div class="why">Traffic + the baseline.</div></td>
+            <td>Admin → <em>Account access management</em> → <em>+</em> → your email. Create the property if none exists.</td>
+          </tr>
+          <tr>
+            <td>Google Ads</td>
+            <td><span class="role">Admin / MCC link</span><div class="why">To rebuild later (Phase 2).</div></td>
+            <td>He accepts a link request from your Manager account, or adds your email under <em>Admin → Access</em>.</td>
+          </tr>
+          <tr>
+            <td>IONOS (hosting / domain / DNS)</td>
+            <td><span class="role">Login or delegate</span><div class="why">Redirects, DNS, the site itself.</div></td>
+            <td>If his plan has no sub-user, he stays owner — set up together on the call, and he changes the password after if he likes.</td>
+          </tr>
+          <tr>
+            <td>Website admin (CMS)</td>
+            <td><span class="role">Administrator</span><div class="why">On-page work, gallery, CRO.</div></td>
+            <td>He creates an admin account for you, or shares the existing one on the call.</td>
+          </tr>
+          <tr>
+            <td>Facebook Page</td>
+            <td><span class="role">Admin / Editor</span><div class="why">Existing channel, reviews, posts.</div></td>
+            <td>Page → <em>Settings → Page access</em> → add you as a person with access.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 3: MATERIALS -->
+  <section>
+    <div class="shead"><span class="n">03</span><h2>Materials to collect from Simon</h2><span class="hint">Chase these early</span></div>
+    <p class="lede">These four are the usual cause of a stalled sprint. Ask for all of them up front — a couple gate work in week 3, so don't let them surface late.</p>
+    <div class="checks">
+      <div class="check"><h3><span class="box">☐</span>Correct address &amp; postcode</h3><p>Settle the <span class="why">SN10 5HF vs 5FQ conflict — this unlocks NAP + citations.</span></p></div>
+      <div class="check"><h3><span class="box">☐</span>Job photos</h3><p>10–20 before/after shots of finished boarding, ladders &amp; hatches <span class="why">— for the gallery (step 13) and the GBP.</span></p></div>
+      <div class="check"><h3><span class="box">☐</span>Past-customer list</h3><p>Names + emails/mobiles, <span class="why">plus where the 53 reviews currently live (Which?, etc.).</span></p></div>
+      <div class="check"><h3><span class="box">☐</span>Business basics</h3><p>Opening hours, full service list, the towns he covers, and his "13+ years" story <span class="why">— feeds GBP, pages &amp; copy.</span></p></div>
+    </div>
+  </section>
+
+  <!-- SECTION 4: NAP SHEET -->
+  <section>
+    <div class="shead"><span class="n">04</span><h2>Master NAP sheet</h2><span class="hint">Lock it once, reuse everywhere</span></div>
+    <p class="lede">Fill the green column with Simon on the call, then copy it <strong>character-for-character</strong> into the GBP, website, and every directory. This one sheet is the reference for steps 3 and 11.</p>
+    <div class="nap">
+      <table>
+        <thead><tr><th>Field</th><th>Currently showing</th><th>Confirmed (fill in)</th></tr></thead>
+        <tbody>
+          <tr><td class="field">Business name</td><td class="current">The Loft Man <span class="conflict">/ The Loft Man (Wilts) Ltd</span></td><td class="confirm">__________________</td></tr>
+          <tr><td class="field">Street address</td><td class="current">4 The Moorlands <span class="conflict">/ Drews Park…</span></td><td class="confirm">__________________</td></tr>
+          <tr><td class="field">Town</td><td class="current">Devizes</td><td class="confirm">__________________</td></tr>
+          <tr><td class="field">Postcode</td><td class="current"><span class="conflict">SN10 5HF vs SN10 5FQ</span></td><td class="confirm">__________________</td></tr>
+          <tr><td class="field">Phone</td><td class="current">07877 273283</td><td class="confirm">__________________</td></tr>
+          <tr><td class="field">Email</td><td class="current">theloftman@fastmail.co.uk</td><td class="confirm">__________________</td></tr>
+          <tr><td class="field">Hours</td><td class="current">Mon–Sun 9am–5pm (check)</td><td class="confirm">__________________</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- SECTION 5: THE ASK -->
+  <section>
+    <div class="shead"><span class="n">05</span><h2>The message to line up the call</h2><span class="hint">Copy, tweak, send</span></div>
+    <div class="send">
+      <h4>✉︎ To Simon — once he's confirmed &amp; paid</h4>
+      <div class="msg">
+        <p>Hi Simon — brilliant, thanks for that, all received. To get started, could we grab <strong>20 minutes on a call this week</strong>? I'll talk you through giving me access to your Google and website bits — much easier if we do it together than me sending you a list.</p>
+        <p>If you could also start digging out a <strong>handful of before/after job photos</strong> and your <strong>past-customer list</strong> whenever you get a sec, that'd give us a flying start.</p>
+        <p>What day suits you? I'll work around you.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="note">
+    <h4>Your one job this week</h4>
+    <p>Get the call booked, set up access, fire the GBP verification, and install tracking so the baseline starts recording. Do just that and everything in weeks 2–4 has clear road ahead of it. Access is the gate — clear it fast.</p>
+  </div>
+
+  <footer>
+    <span>The Loft Man · Simon · Devizes, Wiltshire</span>
+    <span>Week 1 Kickoff · v1 · 30 Jul 2026</span>
+  </footer>
+
+</div>
+</div>

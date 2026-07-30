@@ -1,0 +1,708 @@
+<style>
+  :root {
+    --paper: #FAF7F0;
+    --panel: #F1EADB;
+    --panel-2: #EBE2CF;
+    --line: #E0D5BF;
+    --line-strong: #CFC0A2;
+    --ink: #241E15;
+    --ink-soft: #4A4033;
+    --muted: #7A6E58;
+    --accent: #A9691A;
+    --accent-soft: #C68A38;
+    --go: #3E7A4C;
+    --go-bg: #E4EEDE;
+    --warn: #9C6A16;
+    --warn-bg: #F1E6CE;
+    --urgent: #A93B2C;
+    --urgent-bg: #F3E0DA;
+    --meter-off: #D9CDB4;
+    --shadow: 0 1px 2px rgba(36,30,21,.05), 0 8px 24px -12px rgba(36,30,21,.18);
+
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --paper: #1A1610;
+      --panel: #221C14;
+      --panel-2: #2A2318;
+      --line: #362C1F;
+      --line-strong: #473A29;
+      --ink: #F0E7D6;
+      --ink-soft: #D3C7B1;
+      --muted: #A99A80;
+      --accent: #E0A03B;
+      --accent-soft: #C88630;
+      --go: #7FB98A;
+      --go-bg: #22301F;
+      --warn: #D9A64A;
+      --warn-bg: #2E2716;
+      --urgent: #E08272;
+      --urgent-bg: #33211C;
+      --meter-off: #3B3123;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="light"] {
+    --paper: #FAF7F0; --panel: #F1EADB; --panel-2: #EBE2CF; --line: #E0D5BF;
+    --line-strong: #CFC0A2; --ink: #241E15; --ink-soft: #4A4033; --muted: #7A6E58;
+    --accent: #A9691A; --accent-soft: #C68A38; --go: #3E7A4C; --go-bg: #E4EEDE;
+    --warn: #9C6A16; --warn-bg: #F1E6CE; --urgent: #A93B2C; --urgent-bg: #F3E0DA;
+    --meter-off: #D9CDB4; --shadow: 0 1px 2px rgba(36,30,21,.05), 0 8px 24px -12px rgba(36,30,21,.18);
+  }
+  :root[data-theme="dark"] {
+    --paper: #1A1610; --panel: #221C14; --panel-2: #2A2318; --line: #362C1F;
+    --line-strong: #473A29; --ink: #F0E7D6; --ink-soft: #D3C7B1; --muted: #A99A80;
+    --accent: #E0A03B; --accent-soft: #C88630; --go: #7FB98A; --go-bg: #22301F;
+    --warn: #D9A64A; --warn-bg: #2E2716; --urgent: #E08272; --urgent-bg: #33211C;
+    --meter-off: #3B3123; --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -14px rgba(0,0,0,.6);
+  }
+
+  * { box-sizing: border-box; }
+  body { margin: 0; }
+  .wrap {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    padding: clamp(20px, 5vw, 56px) 20px 80px;
+  }
+  .col { max-width: 900px; margin: 0 auto; }
+
+  /* ---- Masthead ---- */
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 14px;
+  }
+  h1 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(30px, 6vw, 50px);
+    line-height: 1.05;
+    letter-spacing: -.01em;
+    text-wrap: balance;
+    margin: 0 0 18px;
+  }
+  h1 .thin { color: var(--muted); }
+  .standfirst {
+    font-size: clamp(16px, 2.3vw, 19px);
+    color: var(--ink-soft);
+    max-width: 62ch;
+    margin: 0 0 4px;
+  }
+  .standfirst strong { color: var(--ink); font-weight: 600; }
+
+  /* ---- Findings strip ---- */
+  .findings {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    margin: 30px 0 6px;
+    box-shadow: var(--shadow);
+  }
+  .finding { background: var(--panel); padding: 16px 18px; }
+  .finding .num {
+    font-family: var(--serif);
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .finding .num.bad { color: var(--urgent); }
+  .finding .lbl {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 8px;
+    line-height: 1.35;
+  }
+  .caption { font-size: 13px; color: var(--muted); margin: 12px 0 0; }
+
+  /* ---- Legend ---- */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 22px;
+    align-items: center;
+    margin: 40px 0 8px;
+    padding: 14px 18px;
+    border: 1px dashed var(--line-strong);
+    border-radius: 10px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+  .legend .li { display: inline-flex; align-items: center; gap: 8px; }
+
+  /* meter */
+  .meter { display: inline-flex; gap: 3px; align-items: center; }
+  .meter i {
+    width: 7px; height: 12px; border-radius: 2px;
+    background: var(--meter-off); display: inline-block;
+  }
+  .meter i.on { background: var(--accent); }
+
+  /* ---- Phase ---- */
+  .phase { margin-top: 46px; }
+  .phase-head {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    flex-wrap: wrap;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--ink);
+    margin-bottom: 22px;
+  }
+  .phase-tag {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink);
+    padding: 4px 9px;
+    border-radius: 5px;
+  }
+  .phase-head h2 {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(21px, 3.4vw, 27px);
+    margin: 0;
+    letter-spacing: -.01em;
+  }
+  .phase-head .horizon {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    margin-left: auto;
+    letter-spacing: .04em;
+  }
+
+  .items { display: flex; flex-direction: column; gap: 12px; }
+  .item {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 4px 18px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px 20px;
+    box-shadow: var(--shadow);
+  }
+  .item .idx {
+    grid-row: 1 / span 2;
+    font-family: var(--serif);
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+  }
+  .item h3 {
+    font-size: 17px;
+    font-weight: 650;
+    margin: 0 0 5px;
+    letter-spacing: -.01em;
+    color: var(--ink);
+  }
+  .item p { margin: 0 0 12px; color: var(--ink-soft); font-size: 14.5px; max-width: 68ch; }
+  .item p .why { color: var(--muted); }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+  .tag {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 5px;
+    border: 1px solid var(--line-strong);
+    color: var(--ink-soft);
+    background: var(--panel-2);
+    white-space: nowrap;
+  }
+  .tag.cat { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 35%, var(--line-strong)); }
+  .tag.eff { display: inline-flex; gap: 6px; align-items: center; }
+  .tag.eff.low { color: var(--go); background: var(--go-bg); border-color: color-mix(in srgb, var(--go) 30%, transparent); }
+  .tag.eff.med { color: var(--warn); background: var(--warn-bg); border-color: color-mix(in srgb, var(--warn) 30%, transparent); }
+  .tag.eff.high { color: var(--urgent); background: var(--urgent-bg); border-color: color-mix(in srgb, var(--urgent) 30%, transparent); }
+  .tag.impact { display: inline-flex; gap: 7px; align-items: center; padding: 3px 9px 3px 8px; }
+
+  /* ---- Closing note ---- */
+  .note {
+    margin-top: 44px;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
+    border-radius: 10px;
+    padding: 20px 24px;
+  }
+  .note h4 {
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-size: 12px;
+    color: var(--accent);
+    margin: 0 0 10px;
+  }
+  .note p { margin: 0 0 10px; color: var(--ink-soft); font-size: 14.5px; }
+  .note p:last-child { margin-bottom: 0; }
+
+  footer {
+    margin-top: 40px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--muted);
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .phase, .findings, .note { animation: rise .5s ease both; }
+    @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  }
+</style>
+
+<div class="wrap">
+<div class="col">
+
+  <p class="eyebrow">Digital Growth Audit · Prepared for The Loft Man</p>
+  <h1>Rebuilding the pipeline for a<br><span class="thin">west-Wiltshire loft craftsman</span></h1>
+  <p class="standfirst">The problem isn't a traffic dip — it's that <strong>there was never an organic engine underneath the referrals and ad spend</strong>. Word-of-mouth is shrinking and PPC stops the moment the budget does. Below: 25 moves, sequenced from same-week fixes to a business that runs without depending on his phone.</p>
+
+  <div class="findings">
+    <div class="finding"><div class="num bad">2</div><div class="lbl">Websites competing<br>with each other</div></div>
+    <div class="finding"><div class="num">4.92★</div><div class="lbl">From 53 reviews —<br>barely leveraged</div></div>
+    <div class="finding"><div class="num bad">2</div><div class="lbl">Conflicting postcodes<br>across the web</div></div>
+    <div class="finding"><div class="num bad">0</div><div class="lbl">Map-pack presence<br>in search</div></div>
+    <div class="finding"><div class="num">13+</div><div class="lbl">Years' trust &amp; a<br>Which? accreditation</div></div>
+  </div>
+  <p class="caption">Findings from public search + both live sites, 30 Jul 2026. Numbers to be baselined properly once Search Console &amp; Analytics access is in place.</p>
+
+  <div class="legend">
+    <span class="li">Impact
+      <span class="meter" aria-label="high impact"><i class="on"></i><i class="on"></i><i class="on"></i></span> High
+      <span class="meter" aria-label="medium impact"><i class="on"></i><i class="on"></i><i></i></span> Med
+    </span>
+    <span class="li">Effort
+      <span class="tag eff low">Low</span>
+      <span class="tag eff med">Med</span>
+      <span class="tag eff high">High</span>
+    </span>
+    <span class="li">Sequence = priority order</span>
+  </div>
+
+  <!-- PHASE 0 -->
+  <section class="phase">
+    <div class="phase-head">
+      <span class="phase-tag">Phase 0</span>
+      <h2>Stop the leaks</h2>
+      <span class="horizon">0–30 days · quick wins</span>
+    </div>
+    <div class="items">
+
+      <article class="item">
+        <div class="idx">01</div>
+        <div>
+          <h3>Claim &amp; optimise the Google Business Profile</h3>
+          <p>Categories, services, service-area towns, real job photos, opening hours, weekly posts. <span class="why">No map listing showed up in search at all — for a local trade, the map pack is where "loft boarding near me" actually converts, and it's free.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i></span>Impact</span>
+          <span class="tag eff low">Effort · Low</span>
+          <span class="tag cat">Local</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">02</div>
+        <div>
+          <h3>End the two-website civil war</h3>
+          <p>Pick one canonical domain — <code>.com</code> already holds the search authority — and 301-redirect the other into it. <span class="why">Confirm backlinks in Search Console first, then port the sharper <code>.co.uk</code> title ("Loft Ladders &amp; Hatches Wiltshire") onto the survivor.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i></span>Impact</span>
+          <span class="tag eff med">Effort · Med</span>
+          <span class="tag cat">Technical</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">03</div>
+        <div>
+          <h3>Reconcile the name, address &amp; phone</h3>
+          <p>Site says <code>SN10 5HF</code>; directories say <code>SN10 5FQ</code>. <span class="why">Pick the true one and make it identical everywhere — Google trusts businesses whose details match across the web, and his don't yet.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i></i></span>Impact</span>
+          <span class="tag eff low">Effort · Low</span>
+          <span class="tag cat">Local</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">04</div>
+        <div>
+          <h3>Switch reviews back on</h3>
+          <p>A follow-up text + a QR "leave-a-review" card handed over at the end of each job, pointing at the GBP. <span class="why">53 reviews at 4.92★ is a genuine asset sat idle — make it compound instead of frozen.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i></span>Impact</span>
+          <span class="tag eff low">Effort · Low</span>
+          <span class="tag cat">Trust</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">05</div>
+        <div>
+          <h3>Sticky click-to-call &amp; WhatsApp on mobile</h3>
+          <p>A thumb-reachable call button and WhatsApp on every page. <span class="why">Most trade enquiries are phone calls and most of this traffic is mobile — right now the only route is a contact form, which quietly loses the impatient buyer.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i></span>Impact</span>
+          <span class="tag eff low">Effort · Low</span>
+          <span class="tag cat">Web / CRO</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">06</div>
+        <div>
+          <h3>Put the proof above the fold</h3>
+          <p>Which? Trusted Trader badge, the star rating, "13+ years · fully insured · guaranteed" — visible before any scroll. <span class="why">He's earned the trust signals; the site buries them.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i></i></span>Impact</span>
+          <span class="tag eff low">Effort · Low</span>
+          <span class="tag cat">Web / CRO</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">07</div>
+        <div>
+          <h3>Stand up measurement first</h3>
+          <p>GA4, Search Console, and call tracking before we change much else. <span class="why">Baseline the decline so every later move can be proven — and so we learn whether leads are calls, forms, or WhatsApp.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i></i></span>Impact</span>
+          <span class="tag eff low">Effort · Low</span>
+          <span class="tag cat">Measure</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- PHASE 1 -->
+  <section class="phase">
+    <div class="phase-head">
+      <span class="phase-tag">Phase 1</span>
+      <h2>Lay the foundations</h2>
+      <span class="horizon">1–3 months · make him findable</span>
+    </div>
+    <div class="items">
+
+      <article class="item">
+        <div class="idx">08</div>
+        <div>
+          <h3>On-page SEO pass</h3>
+          <p>A real title, meta description and single H1 on every page, written around how people search ("loft boarding Devizes", "loft ladder fitted Wiltshire"). <span class="why">Currently generic and, across two domains, duplicated.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i></span>Impact</span>
+          <span class="tag eff med">Effort · Med</span>
+          <span class="tag cat">Technical</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">09</div>
+        <div>
+          <h3>Local landing pages per town</h3>
+          <p>One genuine page each for Devizes, Marlborough, Chippenham, Trowbridge, Melksham, Calne — targeting "loft boarding [town]". <span class="why">This is how a small trade outranks nationals in its own patch.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i></span>Impact</span>
+          <span class="tag eff med">Effort · Med</span>
+          <span class="tag cat">Local</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">10</div>
+        <div>
+          <h3>Structured-data markup</h3>
+          <p>LocalBusiness, Service, AggregateRating and FAQ schema. <span class="why">Gets the star rating and key facts into the search result itself — free real estate and a click-through boost.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i></i></span>Impact</span>
+          <span class="tag eff low">Effort · Low</span>
+          <span class="tag cat">Technical</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">11</div>
+        <div>
+          <h3>Citations &amp; directory cleanup</h3>
+          <p>Consistent listings on Bing Places, Apple Maps, Yell, Checkatrade, Bark, FreeIndex — reusing the reconciled NAP. <span class="why">Reinforces the local signal and mops up the conflicting-address mess.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i></i></span>Impact</span>
+          <span class="tag eff med">Effort · Med</span>
+          <span class="tag cat">Local</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">12</div>
+        <div>
+          <h3>Technical health check</h3>
+          <p>Page speed, mobile rendering, Core Web Vitals, HTTPS, sitemap, indexation. <span class="why">Dated builds are usually slow and clunky on a phone — which both Google and buyers punish.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i></i></span>Impact</span>
+          <span class="tag eff med">Effort · Med</span>
+          <span class="tag cat">Technical</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">13</div>
+        <div>
+          <h3>Before / after job gallery</h3>
+          <p>Real photos of finished boarding, ladders and hatches, grouped by service. <span class="why">Trade buyers buy with their eyes — a cluttered loft turned into clean storage sells better than any paragraph.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i></span>Impact</span>
+          <span class="tag eff med">Effort · Med</span>
+          <span class="tag cat">Web / CRO</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- PHASE 2 -->
+  <section class="phase">
+    <div class="phase-head">
+      <span class="phase-tag">Phase 2</span>
+      <h2>Modernise &amp; convert</h2>
+      <span class="horizon">3–6 months · turn visits into calls</span>
+    </div>
+    <div class="items">
+
+      <article class="item">
+        <div class="idx">14</div>
+        <div>
+          <h3>Rebuild the website, mobile-first</h3>
+          <p>Fast, modern, one clear value proposition — the current site looks its age and that alone costs trust before a word is read. <span class="why">Everything above lands harder on a site that looks like it belongs in 2026.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i></span>Impact</span>
+          <span class="tag eff high">Effort · High</span>
+          <span class="tag cat">Web / CRO</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">15</div>
+        <div>
+          <h3>Shorten the enquiry path</h3>
+          <p>A three-field quote request — postcode, job type, phone — with instant confirmation, replacing the long contact form. <span class="why">Every extra field is a lost lead; make saying "give me a price" effortless.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i></span>Impact</span>
+          <span class="tag eff med">Effort · Med</span>
+          <span class="tag cat">Web / CRO</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">16</div>
+        <div>
+          <h3>"From £X" pricing guidance</h3>
+          <p>Indicative ranges per service. <span class="why">Qualifies buyers, filters tyre-kickers, and answers the one question every visitor has — without committing him to a fixed quote.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i></i></span>Impact</span>
+          <span class="tag eff low">Effort · Low</span>
+          <span class="tag cat">Web / CRO</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">17</div>
+        <div>
+          <h3>Advice content that captures research</h3>
+          <p>Plain-English answers: "how much does loft boarding cost?", "will boarding my loft cause condensation?", "boarding vs a full conversion". <span class="why">Catches people before they're ready to buy — and feeds the FAQ schema.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i></i></span>Impact</span>
+          <span class="tag eff med">Effort · Med</span>
+          <span class="tag cat">Content</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">18</div>
+        <div>
+          <h3>Rebuild the Google Ads account</h3>
+          <p>Call-only and local-intent campaigns, a tight radius around Devizes, call/location/sitelink extensions, a proper negative-keyword list, and landing pages that match the ad. <span class="why">Same budget, far more of it spent on people who'll actually book.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i></span>Impact</span>
+          <span class="tag eff med">Effort · Med</span>
+          <span class="tag cat">Paid</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">19</div>
+        <div>
+          <h3>Local Services Ads (Google Guaranteed)</h3>
+          <p>Pay-per-lead placement above the map, with the green trust badge. <span class="why">Built for exactly this kind of local trade — he only pays for genuine enquiries, and the badge does trust-work for free.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i></span>Impact</span>
+          <span class="tag eff med">Effort · Med</span>
+          <span class="tag cat">Paid</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- PHASE 3 -->
+  <section class="phase">
+    <div class="phase-head">
+      <span class="phase-tag">Phase 3</span>
+      <h2>Compound &amp; de-risk</h2>
+      <span class="horizon">6–12 months+ · a business, not a phone</span>
+    </div>
+    <div class="items">
+
+      <article class="item">
+        <div class="idx">20</div>
+        <div>
+          <h3>Systematise the referrals he already lives on</h3>
+          <p>An ask-script, referral cards, and a small thank-you for the introduction. <span class="why">He relies on word-of-mouth but leaves it to chance — turn the strongest existing channel into something repeatable.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i></span>Impact</span>
+          <span class="tag eff low">Effort · Low</span>
+          <span class="tag cat">Retention</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">21</div>
+        <div>
+          <h3>Reactivate past customers</h3>
+          <p>Email/SMS the customer list for insulation top-ups, a "winter loft check", or extra storage before Christmas. <span class="why">Your Mango Media wheelhouse — the cheapest lead is a happy customer he already has.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i></i></span>Impact</span>
+          <span class="tag eff low">Effort · Low</span>
+          <span class="tag cat">Email</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">22</div>
+        <div>
+          <h3>Seasonal campaigns</h3>
+          <p>Insulation before winter, storage before Christmas, decluttering in spring. <span class="why">Loft demand has an obvious calendar — get ahead of it instead of waiting for the phone.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i></i></span>Impact</span>
+          <span class="tag eff med">Effort · Med</span>
+          <span class="tag cat">Email / Paid</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">23</div>
+        <div>
+          <h3>Referral partnerships</h3>
+          <p>Estate agents, insulation grant schemes, and solar / heat-pump installers who need loft access done properly first. <span class="why">Other people's customers, arriving pre-trusted.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i></i></span>Impact</span>
+          <span class="tag eff med">Effort · Med</span>
+          <span class="tag cat">Brand</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">24</div>
+        <div>
+          <h3>Become the known "loft man" of west Wiltshire</h3>
+          <p>Consistent brand and a steady trickle of short job videos on Facebook, Instagram and YouTube. <span class="why">Owning the name locally makes every other channel cheaper — people search for him, not the service.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i></i></span>Impact</span>
+          <span class="tag eff high">Effort · High</span>
+          <span class="tag cat">Brand</span>
+        </div>
+      </article>
+
+      <article class="item">
+        <div class="idx">25</div>
+        <div>
+          <h3>Systemise for succession</h3>
+          <p>A documented process, a tracked lead pipeline, and delegated (not shared-password) account access. <span class="why">He's in his 60s — a business that doesn't live entirely in his head is one that can take a holiday, hire help, or one day be sold.</span></p>
+        </div>
+        <div class="tags">
+          <span class="tag impact"><span class="meter"><i class="on"></i><i class="on"></i><i class="on"></i></span>Impact</span>
+          <span class="tag eff med">Effort · Med</span>
+          <span class="tag cat">Brand</span>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <div class="note">
+    <h4>Before any of this — set access up properly</h4>
+    <p>Don't take his passwords. Add yourself as a <strong>delegated user / manager</strong> under your own login on Google Business Profile, Search Console, Analytics and Google Ads (link his Ads account to a Manager / MCC). On IONOS, keep him as owner and change the password afterward if there's no delegated option.</p>
+    <p>It protects him, it covers you, and nothing breaks if either of you ever needs to revoke — the professional move when someone hands over the keys to their livelihood.</p>
+  </div>
+
+  <div class="note" style="border-left-color: var(--go);">
+    <h4 style="color: var(--go);">Where the leverage really is</h4>
+    <p>Phases 0–1 are cheap, fast, and where most of the lost ground gets recovered — a claimed map profile, one website instead of two, live reviews. Do those before spending another pound on ads. The redesign and paid rebuild in Phase 2 then convert the traffic those foundations earn, and Phase 3 turns one-off jobs into a system that keeps producing without him chasing it.</p>
+  </div>
+
+  <footer>
+    <span>The Loft Man · Devizes, Wiltshire</span>
+    <span>Growth Audit · v1 · 30 Jul 2026</span>
+  </footer>
+
+</div>
+</div>
